@@ -26,22 +26,116 @@
 
 ### Easy Installation (Recommended)
 
-**Windows:**
+## 🪟 Windows
+
+### One-Line Install
 
 ```powershell
-# Download and run the installer in powershell
-curl -o install.ps1 https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.ps1
-.\install.ps1
+irm https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.ps1 | iex
 ```
 
-**Mac/Linux:**
+### Scripts Available
+
+- `install.ps1` - Install extension
+- `update.ps1` - Update to latest version
+- `uninstall.ps1` - Remove extension
+
+### Extension Location
+
+```
+C:\Users\YourName\.vscode\extensions\email-sender-1.0.0\
+```
+
+---
+
+## 🍎 Mac
+
+### One-Line Install
 
 ```bash
-# Download and run the installer bash
-curl -o install.sh https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.sh
-chmod +x install.sh
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.sh | bash
 ```
+
+### Scripts Available
+
+- `install.sh` - Install extension
+- `update.sh` - Update to latest version
+- `uninstall.sh` - Remove extension
+
+### Make Scripts Executable
+
+```bash
+chmod +x install.sh update.sh uninstall.sh
+```
+
+### Extension Location
+
+```
+~/.vscode/extensions/email-sender-1.0.0/
+```
+
+---
+
+## 🐧 Linux
+
+### One-Line Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.sh | bash
+```
+
+### Scripts Available
+
+- `install.sh` - Install extension
+- `update.sh` - Update to latest version
+- `uninstall.sh` - Remove extension
+
+### Make Scripts Executable
+
+```bash
+chmod +x install.sh update.sh uninstall.sh
+```
+
+### Extension Location
+
+```
+~/.vscode/extensions/email-sender-1.0.0/
+```
+
+---
+
+## 📋 Quick Command Reference
+
+### Install
+
+| Platform  | Command         |
+| --------- | --------------- |
+| Windows   | `.\install.ps1` |
+| Mac/Linux | `./install.sh`  |
+
+### Update
+
+| Platform  | Command        |
+| --------- | -------------- |
+| Windows   | `.\update.ps1` |
+| Mac/Linux | `./update.sh`  |
+
+### Uninstall
+
+| Platform  | Command           |
+| --------- | ----------------- |
+| Windows   | `.\uninstall.ps1` |
+| Mac/Linux | `./uninstall.sh`  |
+
+---
+
+### Installation from vsix file
+
+1. Download the vsix file from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=aronka.email-sender)
+2. Open the Extensions view by clicking the Extensions icon in the left sidebar or pressing `Ctrl + Shift + X` (Windows/Linux) or `Cmd + Shift + X` (macOS)
+3. Click the ... button at the top of the Extensions view and select "Install from VSIX..."
+4. Select the downloaded vsix file and click Install
+5. Reload VS Code when prompted
 
 ### Manual Installation from GitHub
 
