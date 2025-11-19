@@ -43,7 +43,7 @@
     "compose"
   ],
 "activationEvents": [
-  "onCommand:emailSender.sendEmail"
+  "onCommand:emailSender.open"
 ],
   "main": "./extension.js",
   "contributes": {
