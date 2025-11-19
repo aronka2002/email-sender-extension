@@ -41,7 +41,6 @@
     "sender",
     "compose"
   ],
-  "main": "./extension.js",
   "contributes": {
     "commands": [
       {
