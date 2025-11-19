@@ -131,11 +131,10 @@ This extension is licensed under the [MIT License](LICENSE).
 
 ## 👤 Author
 
-**Your Name**
+**Aronka**
 
-- Website: [yourwebsite.com](https://yourwebsite.com)
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [@aronka2002](https://github.com/aronka2002)
+- Email: aronashok321@gmail.com
 
 ## 🙏 Acknowledgments
 
