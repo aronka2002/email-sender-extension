@@ -8,20 +8,24 @@ Write-Host "║   🔄 Email Sender Extension Updater      ║" -ForegroundColor
 Write-Host "╚════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
-$extensionPath = "$env:USERPROFILE\.vscode\extensions\email-sender-1.0.0"
+$publisher = "aronka"
+$extensionName = "email-sender"
+
+# Find the installed extension (any version)
+$extensionPath = Get-ChildItem "$env:USERPROFILE\.vscode\extensions" -Directory | Where-Object { $_.Name -like "$publisher.$extensionName-*" } | Select-Object -First 1
 
 # Check if extension is installed
-if (-not (Test-Path $extensionPath)) {
+if (-not $extensionPath) {
     Write-Host "❌ Extension not found!" -ForegroundColor Red
     Write-Host "Please install it first using install.ps1" -ForegroundColor Yellow
     exit 1
 }
 
-Write-Host "📍 Extension location: $extensionPath" -ForegroundColor Cyan
+Write-Host "📍 Extension location: $($extensionPath.FullName)" -ForegroundColor Cyan
 Write-Host ""
 
 # Navigate to extension directory
-Push-Location $extensionPath
+Push-Location $extensionPath.FullName
 
 try {
     # Fetch latest changes

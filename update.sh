@@ -18,10 +18,13 @@ echo -e "${CYAN}║   🔄 Email Sender Extension Updater      ║${NC}"
 echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
 echo ""
 
-EXTENSION_PATH="$HOME/.vscode/extensions/email-sender-1.0.0"
+# Find the installed extension (any version)
+PUBLISHER="aronka"
+EXTENSION_NAME="email-sender"
+EXTENSION_PATH=$(find "$HOME/.vscode/extensions" -maxdepth 1 -type d -name "${PUBLISHER}.${EXTENSION_NAME}-*" 2>/dev/null | head -n 1)
 
 # Check if extension is installed
-if [ ! -d "$EXTENSION_PATH" ]; then
+if [ -z "$EXTENSION_PATH" ] || [ ! -d "$EXTENSION_PATH" ]; then
     echo -e "${RED}❌ Extension not found!${NC}"
     echo -e "${YELLOW}Please install it first using install.sh${NC}"
     exit 1

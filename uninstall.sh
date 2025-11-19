@@ -17,16 +17,22 @@ echo -e "${RED}║   🗑️  Email Sender Extension Uninstaller  ║${NC}"
 echo -e "${RED}╚════════════════════════════════════════════╝${NC}"
 echo ""
 
-EXTENSION_PATH="$HOME/.vscode/extensions/email-sender-1.0.0"
+# Find ALL installed versions
+PUBLISHER="aronka"
+EXTENSION_NAME="email-sender"
+EXTENSION_PATHS=$(find "$HOME/.vscode/extensions" -maxdepth 1 -type d -name "${PUBLISHER}.${EXTENSION_NAME}-*" 2>/dev/null || true)
 
 # Check if extension is installed
-if [ ! -d "$EXTENSION_PATH" ]; then
+if [ -z "$EXTENSION_PATHS" ]; then
     echo -e "${GREEN}✓ Extension is not installed${NC}"
     echo ""
     exit 0
 fi
 
-echo -e "${CYAN}📍 Found extension at: $EXTENSION_PATH${NC}"
+echo -e "${CYAN}📍 Found extension(s):${NC}"
+echo "$EXTENSION_PATHS" | while read -r path; do
+    echo -e "${GRAY}   $(basename "$path")${NC}"
+done
 echo ""
 
 # Confirm uninstall
@@ -37,10 +43,17 @@ if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
 fi
 
 echo ""
-echo -e "${YELLOW}🗑️  Removing extension...${NC}"
+echo -e "${YELLOW}🗑️  Removing extension(s)...${NC}"
 
-# Remove extension directory
-if rm -rf "$EXTENSION_PATH" 2>/dev/null; then
+# Remove all extension versions
+FAILED=0
+echo "$EXTENSION_PATHS" | while read -r path; do
+    if ! rm -rf "$path" 2>/dev/null; then
+        FAILED=1
+    fi
+done
+
+if [ $FAILED -eq 0 ]; then
     echo ""
     echo -e "${GREEN}╔════════════════════════════════════════════╗${NC}"
     echo -e "${GREEN}║      ✅ Uninstall Complete!               ║${NC}"
@@ -53,7 +66,9 @@ else
     echo ""
     echo -e "${RED}❌ Failed to remove extension${NC}"
     echo -e "${YELLOW}Please close VS Code and try again, or manually delete:${NC}"
-    echo -e "${GRAY}$EXTENSION_PATH${NC}"
+    echo "$EXTENSION_PATHS" | while read -r path; do
+        echo -e "${GRAY}   $path${NC}"
+    done
     echo ""
     exit 1
 fi

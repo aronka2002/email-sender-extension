@@ -19,7 +19,13 @@ echo -e "${CYAN}║   📧 Email Sender Extension Installer    ║${NC}"
 echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
 echo ""
 
-EXTENSION_PATH="$HOME/.vscode/extensions/aronka.email-sender-1.0.0"
+# CRITICAL FIX: Must match package.json format
+PUBLISHER="aronka"
+EXTENSION_NAME="email-sender"
+VERSION="1.0.1"
+EXTENSION_FOLDER="${PUBLISHER}.${EXTENSION_NAME}-${VERSION}"
+
+EXTENSION_PATH="$HOME/.vscode/extensions/${EXTENSION_FOLDER}"
 REPO_URL="https://github.com/aronka2002/email-sender-extension.git"
 
 # Check if git is installed
@@ -36,11 +42,15 @@ if ! command -v npm &> /dev/null; then
     exit 1
 fi
 
-# Remove old version if exists
-if [ -d "$EXTENSION_PATH" ]; then
-    echo -e "${YELLOW}🗑️  Removing old version...${NC}"
-    rm -rf "$EXTENSION_PATH"
-    echo -e "${GREEN}✓ Old version removed${NC}"
+# Remove ALL previous versions
+echo -e "${YELLOW}🔍 Checking for previous versions...${NC}"
+OLD_VERSIONS=$(find "$HOME/.vscode/extensions" -maxdepth 1 -type d -name "${PUBLISHER}.${EXTENSION_NAME}-*" 2>/dev/null || true)
+if [ -n "$OLD_VERSIONS" ]; then
+    echo "$OLD_VERSIONS" | while read -r old_path; do
+        echo -e "${YELLOW}🗑️  Removing $(basename "$old_path")...${NC}"
+        rm -rf "$old_path"
+    done
+    echo -e "${GREEN}✓ Old versions removed${NC}"
 fi
 
 # Clone repository
@@ -75,7 +85,7 @@ echo ""
 echo -e "${YELLOW}🚀 Next Steps:${NC}"
 echo -e "${WHITE}   1. Restart VS Code${NC}"
 echo -e "${WHITE}   2. Press Cmd+Shift+P (Mac) or Ctrl+Shift+P (Linux)${NC}"
-echo -e "${WHITE}   3. Type 'Send Email'${NC}"
+echo -e "${WHITE}   3. Type 'Send Email' or 'Email: Send Email'${NC}"
 echo -e "${WHITE}   4. Start sending emails!${NC}"
 echo ""
 echo -e "${CYAN}💡 Tip: Set up Gmail App Password first!${NC}"

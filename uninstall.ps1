@@ -8,16 +8,23 @@ Write-Host "║   🗑️  Email Sender Extension Uninstaller  ║" -ForegroundC
 Write-Host "╚════════════════════════════════════════════╝" -ForegroundColor Red
 Write-Host ""
 
-$extensionPath = "$env:USERPROFILE\.vscode\extensions\email-sender-1.0.0"
+$publisher = "aronka"
+$extensionName = "email-sender"
+
+# Find ALL installed versions
+$extensionPaths = Get-ChildItem "$env:USERPROFILE\.vscode\extensions" -Directory | Where-Object { $_.Name -like "$publisher.$extensionName-*" }
 
 # Check if extension is installed
-if (-not (Test-Path $extensionPath)) {
+if (-not $extensionPaths) {
     Write-Host "✓ Extension is not installed" -ForegroundColor Green
     Write-Host ""
     exit 0
 }
 
-Write-Host "📍 Found extension at: $extensionPath" -ForegroundColor Cyan
+Write-Host "📍 Found extension(s):" -ForegroundColor Cyan
+foreach ($path in $extensionPaths) {
+    Write-Host "   $($path.Name)" -ForegroundColor Gray
+}
 Write-Host ""
 
 # Confirm uninstall
@@ -28,10 +35,12 @@ if ($confirm -ne 'y' -and $confirm -ne 'Y') {
 }
 
 Write-Host ""
-Write-Host "🗑️  Removing extension..." -ForegroundColor Yellow
+Write-Host "🗑️  Removing extension(s)..." -ForegroundColor Yellow
 
 try {
-    Remove-Item -Recurse -Force $extensionPath -ErrorAction Stop
+    foreach ($path in $extensionPaths) {
+        Remove-Item -Recurse -Force $path.FullName -ErrorAction Stop
+    }
     
     Write-Host ""
     Write-Host "╔════════════════════════════════════════════╗" -ForegroundColor Green
@@ -46,7 +55,9 @@ try {
     Write-Host ""
     Write-Host "❌ Failed to remove extension" -ForegroundColor Red
     Write-Host "Please close VS Code and try again, or manually delete:" -ForegroundColor Yellow
-    Write-Host "$extensionPath" -ForegroundColor Gray
+    foreach ($path in $extensionPaths) {
+        Write-Host "   $($path.FullName)" -ForegroundColor Gray
+    }
     Write-Host ""
     exit 1
 }
