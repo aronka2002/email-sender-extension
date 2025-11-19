@@ -2,7 +2,7 @@
   "name": "email-sender",
   "displayName": "Email Sender - Quick Gmail Integration",
   "description": "Send professional emails directly from VS Code with a beautiful UI. Supports Gmail with app passwords, multiple recipients, CC, drafts, and templates.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "aronka",
   "private": false,
   "author": {
@@ -42,6 +42,10 @@
     "sender",
     "compose"
   ],
+  "activationEvents": [
+    "onCommand:emailSender.open"
+  ],
+  "main": "./extension.js",
   "contributes": {
     "commands": [
       {
