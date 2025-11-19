@@ -19,7 +19,7 @@ echo -e "${CYAN}║   📧 Email Sender Extension Installer    ║${NC}"
 echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
 echo ""
 
-EXTENSION_PATH="$HOME/.vscode/extensions/email-sender-1.0.0"
+EXTENSION_PATH="$HOME/.vscode/extensions/aronka.email-sender-1.0.0"
 REPO_URL="https://github.com/aronka2002/email-sender-extension.git"
 
 # Check if git is installed

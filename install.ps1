@@ -1,6 +1,7 @@
 #!/usr/bin/env pwsh
 # Email Sender Extension - Windows Installer
-# Run this script to install the extension directly from GitHub
+# Corrected to install in VS Code's required folder format:
+#   publisher.name-version  → aronka.email-sender-1.0.0
 
 Write-Host ""
 Write-Host "================================================================" -ForegroundColor Cyan
@@ -8,7 +9,15 @@ Write-Host "   Email Sender Extension Installer" -ForegroundColor Cyan
 Write-Host "================================================================" -ForegroundColor Cyan
 Write-Host ""
 
-$extensionPath = "$env:USERPROFILE\.vscode\extensions\email-sender-1.0.0"
+# REQUIRED FIX — this MUST match package.json (publisher + name + version)
+$publisher = "aronka"
+$extensionName = "email-sender"
+$version = "1.0.0"
+
+# Final folder name VS Code requires
+$extensionFolder = "$publisher.$extensionName-$version"
+$extensionPath = "$env:USERPROFILE\.vscode\extensions\$extensionFolder"
+
 $repoUrl = "https://github.com/aronka2002/email-sender-extension.git"
 
 # Check if git is installed
@@ -16,7 +25,6 @@ try {
     git --version | Out-Null
 } catch {
     Write-Host "Error: Git is not installed!" -ForegroundColor Red
-    Write-Host "Please install Git from: https://git-scm.com/download/win" -ForegroundColor Yellow
     exit 1
 }
 
@@ -25,18 +33,17 @@ try {
     npm --version | Out-Null
 } catch {
     Write-Host "Error: Node.js/npm is not installed!" -ForegroundColor Red
-    Write-Host "Please install Node.js from: https://nodejs.org/" -ForegroundColor Yellow
     exit 1
 }
 
-# Remove old version if exists
+# Remove previous version
 if (Test-Path $extensionPath) {
     Write-Host "Removing old version..." -ForegroundColor Yellow
     try {
         Remove-Item -Recurse -Force $extensionPath -ErrorAction Stop
         Write-Host "Old version removed" -ForegroundColor Green
     } catch {
-        Write-Host "Failed to remove old version. Please close VS Code and try again." -ForegroundColor Red
+        Write-Host "Failed to remove old version. Close VS Code and try again." -ForegroundColor Red
         exit 1
     }
 }
@@ -52,7 +59,7 @@ try {
         throw "Git clone failed"
     }
 } catch {
-    Write-Host "Failed to clone repository. Check your internet connection." -ForegroundColor Red
+    Write-Host "Failed to clone repository." -ForegroundColor Red
     exit 1
 }
 
@@ -74,7 +81,6 @@ try {
     exit 1
 }
 
-# Success message
 Write-Host ""
 Write-Host "================================================================" -ForegroundColor Green
 Write-Host "        Installation Complete!" -ForegroundColor Green
@@ -86,8 +92,4 @@ Write-Host "Next Steps:" -ForegroundColor Yellow
 Write-Host "   1. Restart VS Code" -ForegroundColor White
 Write-Host "   2. Press Ctrl+Shift+P" -ForegroundColor White
 Write-Host "   3. Type 'Send Email'" -ForegroundColor White
-Write-Host "   4. Start sending emails!" -ForegroundColor White
-Write-Host ""
-Write-Host "Tip: Set up Gmail App Password first!" -ForegroundColor Cyan
-Write-Host "Visit: https://myaccount.google.com/apppasswords" -ForegroundColor Gray
 Write-Host ""
