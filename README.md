@@ -24,12 +24,57 @@
 
 ## 🚀 Quick Start
 
-### Installation
+### Easy Installation (Recommended)
 
-1. Open VS Code
-2. Press `Ctrl+Shift+X` to open Extensions
-3. Search for "Email Sender"
-4. Click Install
+**Windows:**
+
+```powershell
+# Download and run the installer
+curl -o install.ps1 https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.ps1
+.\install.ps1
+```
+
+**Mac/Linux:**
+
+```bash
+# Download and run the installer
+curl -o install.sh https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.sh
+chmod +x install.sh
+./install.sh
+```
+
+### Manual Installation from GitHub
+
+```bash
+# Clone to VS Code extensions folder
+cd ~/.vscode/extensions  # On Mac/Linux
+cd $env:USERPROFILE\.vscode\extensions  # On Windows
+
+# Clone the repository
+git clone https://github.com/aronka2002/email-sender-extension.git email-sender-1.0.0
+
+# Install dependencies
+cd email-sender-1.0.0
+npm install
+
+# Restart VS Code
+```
+
+### Update Extension
+
+**Windows:**
+
+```powershell
+.\update.ps1
+```
+
+**Mac/Linux:**
+
+```bash
+cd ~/.vscode/extensions/email-sender-1.0.0
+git pull
+npm install
+```
 
 ### Setup Gmail App Password
 
@@ -134,7 +179,7 @@ This extension is licensed under the [MIT License](LICENSE).
 **Aronka**
 
 - GitHub: [@aronka2002](https://github.com/aronka2002)
-- Email: aronashok321@gmail.com
+- Email: your.email@example.com
 
 ## 🙏 Acknowledgments
 
@@ -144,9 +189,9 @@ This extension is licensed under the [MIT License](LICENSE).
 
 ## 📊 Stats
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/email-sender-extension?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/email-sender-extension?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/email-sender-extension)
+![GitHub stars](https://img.shields.io/github/stars/aronka2002/email-sender-extension?style=social)
+![GitHub forks](https://img.shields.io/github/forks/aronka2002/email-sender-extension?style=social)
+![GitHub issues](https://img.shields.io/github/issues/aronka2002/email-sender-extension)
 
 ---
 
