@@ -29,7 +29,7 @@
 **Windows:**
 
 ```powershell
-# Download and run the installer
+# Download and run the installer in powershell
 curl -o install.ps1 https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.ps1
 .\install.ps1
 ```
@@ -37,7 +37,7 @@ curl -o install.ps1 https://raw.githubusercontent.com/aronka2002/email-sender-ex
 **Mac/Linux:**
 
 ```bash
-# Download and run the installer
+# Download and run the installer bash
 curl -o install.sh https://raw.githubusercontent.com/aronka2002/email-sender-extension/main/install.sh
 chmod +x install.sh
 ./install.sh
