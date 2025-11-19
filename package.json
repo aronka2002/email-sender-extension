@@ -42,7 +42,9 @@
     "sender",
     "compose"
   ],
-  "activationEvents": [],
+"activationEvents": [
+  "onCommand:emailSender.sendEmail"
+],
   "main": "./extension.js",
   "contributes": {
     "commands": [
