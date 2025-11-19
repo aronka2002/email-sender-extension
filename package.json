@@ -1,0 +1,89 @@
+{
+  "name": "email-sender",
+  "displayName": "Email Sender - Quick Gmail Integration",
+  "description": "Send professional emails directly from VS Code with a beautiful UI. Supports Gmail with app passwords, multiple recipients, CC, drafts, and templates.",
+  "version": "1.0.0",
+  "publisher": "aronka",
+  "author": {
+    "name": "Aron K A",
+    "email": "aronashok321@gmail.com"
+  },
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#667eea",
+    "theme": "dark"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/aronka2002/email-sender-extension#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aronka2002/email-sender-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aronka2002/email-sender-extension/issues",
+    "email": "aronashok321@gmail.com"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Productivity"
+  ],
+  "keywords": [
+    "email",
+    "gmail",
+    "send",
+    "mail",
+    "smtp",
+    "nodemailer",
+    "communication",
+    "productivity",
+    "sender",
+    "compose"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "emailSender.open",
+        "title": "Send Email",
+        "category": "Email",
+        "icon": "$(mail)"
+      }
+    ],
+    "configuration": {
+      "title": "Email Sender",
+      "properties": {
+        "emailSender.autoSaveDrafts": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically save email drafts"
+        },
+        "emailSender.showNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show notifications when emails are sent"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "echo \"No tests specified\" && exit 0",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/node": "^18.x",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "qna": "marketplace",
+  "badges": []
+}

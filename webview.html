@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--vscode-editor-background) 0%,
+          var(--vscode-sideBar-background) 100%
+        );
+        color: var(--vscode-foreground);
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid var(--vscode-panel-border);
+      }
+
+      .header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .header p {
+        color: var(--vscode-descriptionForeground);
+        font-size: 14px;
+      }
+
+      .card {
+        background: var(--vscode-editorWidget-background);
+        border: 1px solid var(--vscode-panel-border);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--vscode-foreground);
+      }
+
+      .card-title::before {
+        content: "";
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 2px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 13px;
+        color: var(--vscode-foreground);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .required {
+        color: #f87171;
+        font-weight: 700;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid var(--vscode-input-border);
+        background: var(--vscode-input-background);
+        color: var(--vscode-input-foreground);
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        transition: all 0.3s ease;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-1px);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 150px;
+        line-height: 1.5;
+      }
+
+      .help-text {
+        font-size: 12px;
+        color: var(--vscode-descriptionForeground);
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .help-text::before {
+        content: "ℹ️";
+        font-size: 12px;
+      }
+
+      .char-count {
+        font-size: 11px;
+        color: var(--vscode-descriptionForeground);
+        text-align: right;
+        margin-top: 4px;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      button {
+        flex: 1;
+        padding: 14px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+
+      .btn-primary:active {
+        transform: translateY(0);
+      }
+
+      .btn-secondary {
+        background: var(--vscode-button-secondaryBackground);
+        color: var(--vscode-button-secondaryForeground);
+      }
+
+      .btn-secondary:hover {
+        background: var(--vscode-button-secondaryHoverBackground);
+        transform: translateY(-2px);
+      }
+
+      .btn-clear {
+        background: transparent;
+        border: 2px solid var(--vscode-input-border);
+        color: var(--vscode-foreground);
+      }
+
+      .btn-clear:hover {
+        border-color: #f87171;
+        color: #f87171;
+      }
+
+      .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 16px 20px;
+        background: var(--vscode-notifications-background);
+        border: 1px solid var(--vscode-notifications-border);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: none;
+        align-items: center;
+        gap: 12px;
+        z-index: 1000;
+        animation: slideInRight 0.3s ease-out;
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .toast.show {
+        display: flex;
+      }
+
+      .toast.success {
+        border-left: 4px solid #10b981;
+      }
+
+      .toast.error {
+        border-left: 4px solid #f87171;
+      }
+
+      .toast.warning {
+        border-left: 4px solid #f59e0b;
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+
+      .quick-action-btn {
+        padding: 6px 12px;
+        background: var(--vscode-button-secondaryBackground);
+        border: 1px solid var(--vscode-input-border);
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .quick-action-btn:hover {
+        background: var(--vscode-button-secondaryHoverBackground);
+        transform: scale(1.05);
+      }
+
+      .email-preview {
+        background: var(--vscode-editor-background);
+        border: 1px solid var(--vscode-panel-border);
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 12px;
+        font-size: 13px;
+        line-height: 1.6;
+        display: none;
+      }
+
+      .email-preview.show {
+        display: block;
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      .toggle-preview {
+        font-size: 12px;
+        color: #667eea;
+        cursor: pointer;
+        text-decoration: underline;
+        margin-top: 8px;
+        display: inline-block;
+      }
+
+      .toggle-preview:hover {
+        color: #764ba2;
+      }
+
+      .attachment-area {
+        border: 2px dashed var(--vscode-input-border);
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 12px;
+      }
+
+      .attachment-area:hover {
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.05);
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .btn-primary.loading {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📧 Email Sender</h1>
+        <p>Send professional emails directly from VS Code</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔐 Your Credentials</div>
+
+        <div class="form-group">
+          <label> Your Email <span class="required">*</span> </label>
+          <div class="input-wrapper">
+            <input
+              id="sender"
+              type="email"
+              placeholder="your.email@gmail.com"
+              autocomplete="email"
+            />
+          </div>
+          <div class="help-text">Your Gmail address</div>
+        </div>
+
+        <div class="form-group">
+          <label> App Password <span class="required">*</span> </label>
+          <div class="input-wrapper">
+            <input
+              id="password"
+              type="password"
+              placeholder="xxxx xxxx xxxx xxxx"
+              autocomplete="current-password"
+            />
+          </div>
+          <div class="help-text">
+            Generate at myaccount.google.com/apppasswords
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✉️ Compose Email</div>
+
+        <div class="form-group">
+          <label> To <span class="required">*</span> </label>
+          <input id="to" type="text" placeholder="recipient@example.com" />
+          <div class="help-text">Separate multiple recipients with commas</div>
+          <div class="quick-actions">
+            <button class="quick-action-btn" onclick="addQuickEmail('to')">
+              + Add Another
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>CC</label>
+          <input id="cc" type="text" placeholder="cc@example.com" />
+          <div class="help-text">Carbon copy - optional</div>
+        </div>
+
+        <div class="form-group">
+          <label>Subject <span class="required">*</span></label>
+          <input id="subject" type="text" placeholder="Enter email subject" />
+          <div class="quick-actions">
+            <button
+              class="quick-action-btn"
+              onclick="insertTemplate('meeting')"
+            >
+              📅 Meeting Request
+            </button>
+            <button
+              class="quick-action-btn"
+              onclick="insertTemplate('followup')"
+            >
+              👋 Follow-up
+            </button>
+            <button class="quick-action-btn" onclick="insertTemplate('update')">
+              📊 Update
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Message <span class="required">*</span></label>
+          <textarea
+            id="body"
+            placeholder="Write your message here..."
+          ></textarea>
+          <div class="char-count"><span id="charCount">0</span> characters</div>
+          <span class="toggle-preview" onclick="togglePreview()"
+            >👁️ Preview Email</span
+          >
+          <div id="emailPreview" class="email-preview"></div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn-primary" id="sendBtn" onclick="send()">
+          <span id="btnText">📨 Send Email</span>
+          <span id="btnSpinner" class="spinner" style="display: none"></span>
+        </button>
+        <button class="btn-secondary" onclick="saveDraft()">
+          💾 Save Draft
+        </button>
+        <button class="btn-clear" onclick="clearForm()">🗑️ Clear</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast">
+      <span id="toastIcon"></span>
+      <span id="toastMessage"></span>
+    </div>
+
+    <script>
+      const vscode = acquireVsCodeApi();
+      let draftSaved = false;
+
+      // Character counter
+      document.getElementById("body").addEventListener("input", function () {
+        const count = this.value.length;
+        document.getElementById("charCount").textContent = count;
+      });
+
+      // Email templates
+      function insertTemplate(type) {
+        const subject = document.getElementById("subject");
+        const templates = {
+          meeting: "Meeting Request: ",
+          followup: "Follow-up: ",
+          update: "Update: ",
+        };
+        if (subject.value === "") {
+          subject.value = templates[type];
+          subject.focus();
+        }
+      }
+
+      // Add quick email
+      function addQuickEmail(fieldId) {
+        const field = document.getElementById(fieldId);
+        if (field.value && !field.value.endsWith(",")) {
+          field.value += ", ";
+        }
+        field.focus();
+      }
+
+      // Toggle preview
+      function togglePreview() {
+        const preview = document.getElementById("emailPreview");
+        const body = document.getElementById("body").value;
+
+        if (preview.classList.contains("show")) {
+          preview.classList.remove("show");
+        } else {
+          preview.innerHTML =
+            body.replace(/\n/g, "<br>") || "<em>No content to preview</em>";
+          preview.classList.add("show");
+        }
+      }
+
+      // Show toast notification
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        const icon = document.getElementById("toastIcon");
+        const msg = document.getElementById("toastMessage");
+
+        const icons = {
+          success: "✅",
+          error: "❌",
+          warning: "⚠️",
+        };
+
+        icon.textContent = icons[type];
+        msg.textContent = message;
+        toast.className = `toast ${type} show`;
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 4000);
+      }
+
+      // Validation
+      function validateForm() {
+        const sender = document.getElementById("sender").value.trim();
+        const password = document.getElementById("password").value;
+        const to = document.getElementById("to").value.trim();
+        const subject = document.getElementById("subject").value.trim();
+        const body = document.getElementById("body").value.trim();
+
+        if (!sender || !password) {
+          showToast("Email and password are required!", "error");
+          return false;
+        }
+
+        if (!to) {
+          showToast("Recipient email is required!", "error");
+          return false;
+        }
+
+        if (!subject) {
+          showToast("Please add a subject line", "warning");
+          return false;
+        }
+
+        if (!body) {
+          showToast("Email body cannot be empty", "warning");
+          return false;
+        }
+
+        return true;
+      }
+
+      // Send email
+      function send() {
+        if (!validateForm()) return;
+
+        const sendBtn = document.getElementById("sendBtn");
+        const btnText = document.getElementById("btnText");
+        const btnSpinner = document.getElementById("btnSpinner");
+
+        // Show loading state
+        sendBtn.classList.add("loading");
+        btnText.textContent = "Sending...";
+        btnSpinner.style.display = "inline-block";
+
+        vscode.postMessage({
+          sender: document.getElementById("sender").value.trim(),
+          password: document.getElementById("password").value,
+          to: document.getElementById("to").value.trim(),
+          cc: document.getElementById("cc").value.trim(),
+          subject: document.getElementById("subject").value.trim(),
+          body: document.getElementById("body").value,
+        });
+
+        // Reset button after 3 seconds (in case no response)
+        setTimeout(() => {
+          sendBtn.classList.remove("loading");
+          btnText.textContent = "📨 Send Email";
+          btnSpinner.style.display = "none";
+        }, 3000);
+      }
+
+      // Save draft
+      function saveDraft() {
+        const draft = {
+          to: document.getElementById("to").value,
+          cc: document.getElementById("cc").value,
+          subject: document.getElementById("subject").value,
+          body: document.getElementById("body").value,
+        };
+
+        localStorage.setItem("emailDraft", JSON.stringify(draft));
+        showToast("Draft saved successfully!", "success");
+        draftSaved = true;
+      }
+
+      // Load draft
+      function loadDraft() {
+        const draft = localStorage.getItem("emailDraft");
+        if (draft) {
+          const data = JSON.parse(draft);
+          document.getElementById("to").value = data.to || "";
+          document.getElementById("cc").value = data.cc || "";
+          document.getElementById("subject").value = data.subject || "";
+          document.getElementById("body").value = data.body || "";
+          showToast("Draft loaded", "success");
+        }
+      }
+
+      // Clear form
+      function clearForm() {
+        if (confirm("Are you sure you want to clear all fields?")) {
+          document.getElementById("to").value = "";
+          document.getElementById("cc").value = "";
+          document.getElementById("subject").value = "";
+          document.getElementById("body").value = "";
+          document.getElementById("charCount").textContent = "0";
+          localStorage.removeItem("emailDraft");
+          showToast("Form cleared", "success");
+        }
+      }
+
+      // Load credentials
+      window.addEventListener("message", (event) => {
+        if (event.data.type === "loadCredentials") {
+          if (event.data.email)
+            document.getElementById("sender").value = event.data.email;
+          if (event.data.password)
+            document.getElementById("password").value = event.data.password;
+        }
+
+        if (event.data.type === "sendSuccess") {
+          showToast("Email sent successfully!", "success");
+          // Clear compose fields but keep credentials
+          document.getElementById("to").value = "";
+          document.getElementById("cc").value = "";
+          document.getElementById("subject").value = "";
+          document.getElementById("body").value = "";
+          localStorage.removeItem("emailDraft");
+        }
+
+        if (event.data.type === "sendError") {
+          showToast(event.data.message || "Failed to send email", "error");
+        }
+      });
+
+      // Auto-load draft on startup
+      window.addEventListener("load", () => {
+        const draft = localStorage.getItem("emailDraft");
+        if (
+          draft &&
+          confirm("Found a saved draft. Would you like to load it?")
+        ) {
+          loadDraft();
+        }
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        // Ctrl/Cmd + Enter to send
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+          send();
+        }
+        // Ctrl/Cmd + S to save draft
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+          e.preventDefault();
+          saveDraft();
+        }
+      });
+    </script>
+  </body>
+</html>

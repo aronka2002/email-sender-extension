@@ -1,0 +1,39 @@
+# Node modules
+node_modules/
+
+# Build output
+*.vsix
+out/
+dist/
+
+# VS Code
+.vscode/
+.vscode-test/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# Package manager
+package-lock.json
+yarn.lock
+
+# Test coverage
+coverage/
+.nyc_output/
